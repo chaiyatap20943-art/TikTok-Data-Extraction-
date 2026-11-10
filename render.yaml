@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: tiktok-content-collector-pilot
+    runtime: docker
+    plan: starter
+    branch: main
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /_stcore/health
+    autoDeployTrigger: checksPass
+    envVars:
+      - key: PILOT_PASSWORD
+        sync: false
+      - key: ENABLE_PERMITTED_BROWSER
+        value: "false"
