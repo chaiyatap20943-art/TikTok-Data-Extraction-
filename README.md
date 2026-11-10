@@ -4,8 +4,14 @@ Browser UI for authorized CSV/XLSX imports, screenshot OCR/manual review,
 Bangkok publication-date filtering, reconciliation, quality reports and safe Thai
 CSV exports. **Live TikTok collection: NOT TESTED / NOT VERIFIED.**
 
-End users need only a browser. Hosted deployment is pending a connected Render
+End users need only a browser. Hosted deployment is pending a connected hosting
 account; this repository does not itself host the dynamic application.
+
+## Free hosting
+
+Use [Streamlit Community Cloud](docs/STREAMLIT_CLOUD.md) for the free owner pilot.
+No laptop installation is needed. The existing Render Blueprint selects a paid
+plan; do not apply it for a free-only trial. Neither host has been deployed yet.
 
 ## Current capabilities
 

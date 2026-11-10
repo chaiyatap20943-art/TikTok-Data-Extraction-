@@ -25,3 +25,24 @@ def test_signin_and_default_controls(monkeypatch):
     app.radio[0].set_value('Authorized browser collection').run()
     assert any('documentary' in error.value for error in app.error)
     assert any(button.disabled for button in app.button if button.label == 'Start browser collection')
+
+
+def test_streamlit_cloud_secrets_login(monkeypatch):
+    monkeypatch.delenv('PILOT_PASSWORD', raising=False)
+    app = AppTest.from_file(str(Path('app.py').resolve()))
+    app.secrets['PILOT_PASSWORD'] = 'synthetic-cloud-test-password'
+    app.run()
+    assert not app.exception
+    app.text_input[0].set_value('synthetic-cloud-test-password')
+    app.button[0].click().run()
+    assert not app.exception
+    assert app.text_input[0].value.endswith('@masterart_th')
+
+
+def test_invalid_secret_fails_closed(monkeypatch):
+    monkeypatch.delenv('PILOT_PASSWORD', raising=False)
+    app = AppTest.from_file(str(Path('app.py').resolve()))
+    app.secrets['PILOT_PASSWORD'] = 1234
+    app.run()
+    assert not app.exception
+    assert 'unavailable' in app.error[0].value

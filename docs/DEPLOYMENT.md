@@ -1,4 +1,9 @@
-# Render private pilot deployment
+# Hosting options
+
+For a **free pilot**, follow [Streamlit Community Cloud](STREAMLIT_CLOUD.md).
+The instructions below are an optional **paid** Render alternative.
+
+## Render private pilot deployment
 
 Status: externally blocked until the repository is connected to a Render account.
 No real hosted application URL has been created or verified by this implementation.

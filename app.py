@@ -17,7 +17,12 @@ from collector.screenshots import extract_text
 st.set_page_config(page_title='TikTok Content Collector', layout='wide')
 st.title('TikTok Content Collector')
 password = os.environ.get('PILOT_PASSWORD', '')
-if len(password) < 16:
+if not password:
+    try:
+        password = st.secrets.get('PILOT_PASSWORD', '')
+    except (FileNotFoundError, st.errors.StreamlitSecretNotFoundError):
+        password = ''
+if not isinstance(password, str) or len(password) < 16:
     st.error('Private pilot unavailable: configure PILOT_PASSWORD with at least 16 characters.')
     st.stop()
 if not st.session_state.get('authenticated'):
