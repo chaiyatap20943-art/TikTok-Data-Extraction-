@@ -9,6 +9,7 @@ RUN --mount=type=secret,id=proxy_ca \
 RUN useradd --create-home --uid 10001 pilot && chown pilot:pilot /app
 COPY --chown=pilot:pilot collector ./collector
 COPY --chown=pilot:pilot app.py .
+RUN apt-get update && apt-get install -y --no-install-recommends libatomic1 fonts-dejavu-core && rm -rf /var/lib/apt/lists/*
 USER pilot
 FROM base AS test
 USER root
