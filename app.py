@@ -130,10 +130,12 @@ if result and authorized:
             editable = []
             for record in records:
                 editable.append({'publication_datetime': record['posted_at_bangkok'] or record['posted_date_bangkok'],
-                                 'caption': record['caption'], 'video_url': record['video_url'],
+                                 'caption': record['caption'], 'video_url': record['video_url'] or (channel.rstrip('/') + '/video/' + record['video_id'] if record['video_id'] else ''),
+                                 'source_type': record['source_type'],
+                                 'publication_time_quality': record['publication_time_quality'],
                                  **{key: record[key + '_displayed'] for key in ('views', 'likes', 'comments', 'shares', 'saves')},
                                  'video_url_quality': record['video_url_quality'], 'caption_quality': record['caption_quality']})
-            corrections = st.data_editor(pd.DataFrame(editable), key='corrections', hide_index=True)
+            corrections = st.data_editor(pd.DataFrame(editable), key='corrections', hide_index=True, disabled=['source_type'])
             checked = st.checkbox('I checked corrections against the source evidence.')
             if st.button('Apply verified corrections', disabled=not checked):
                 accepted, rejected = normalize_rows(corrections.fillna('').to_dict('records'), dict(zip(INPUT_FIELDS, INPUT_FIELDS)), channel, start, end, 'manual', 'human correction of imported evidence')

@@ -130,3 +130,11 @@ def test_fixture_labels_survive_import():
     records, _ = import_csv(open('tests/fixtures/synthetic.csv', 'rb').read(), CHANNEL, START, END)
     assert len(records) == 2
     assert all(record['source_type'] == 'fixture' for record in records)
+
+
+def test_explicitly_unmapped_column_stays_blank():
+    mapping = dict(zip(INPUT_FIELDS, INPUT_FIELDS))
+    mapping['likes'] = ''
+    records, issues = normalize_rows([row(likes='123')], mapping, CHANNEL, START, END, 'fixture')
+    assert not issues
+    assert records[0]['likes'] is None

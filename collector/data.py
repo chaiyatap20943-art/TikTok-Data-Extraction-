@@ -137,7 +137,8 @@ def normalize_rows(rows, mapping, channel, start, end, source='owner_export', re
             if None in raw or any(value is None for value in raw.values()):
                 raise ValueError('Row has too many columns.')
             def get(field):
-                value = raw.get(mapping.get(field) or field, '')
+                column = mapping.get(field, field)
+                value = raw.get(column, '') if column else ''
                 return '' if value is None else str(value)
             published, time_quality, day = parse_timestamp(get('publication_datetime'))
             if not day:

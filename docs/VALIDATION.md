@@ -4,14 +4,14 @@
 
 - `.venv/bin/ruff check .` — passed.
 - `TESSDATA_PREFIX=/workspace/tiktok-tessdata .venv/bin/python -m pytest -q`
-  — 24 passed (14.79s). The Thai/English Tesseract models for this cloud machine
+  — 25 passed (8.78s). The Thai/English Tesseract models for this cloud machine
   were copied from the built image to avoid a host system installation.
 - `XDG_CACHE_HOME=/workspace/cache .venv/bin/pip-audit -r requirements.lock`
   — no known vulnerabilities found at audit time.
 - `.venv/bin/python -m pip check` — no broken requirements.
 - `docker build --secret id=proxy_ca,src=/etc/ssl/certs/ca-certificates.crt
   --target test -t collector-test .` — passed; **24 tests passed inside Docker**
-  (10.34s). Runs as non-root `pilot`; real local Chromium and Tesseract execution.
+  (10.34s); final review regression adds a 25th test. Runs as non-root `pilot`; real local Chromium and Tesseract execution.
 - `docker build --secret id=proxy_ca,src=/etc/ssl/certs/ca-certificates.crt
   -t collector-pilot .` — runtime image built successfully.
 - Runtime container health and login verified separately with a disposable random
@@ -50,7 +50,8 @@ has been established. A source-marked `verified` test row means fixture evidence
 not independent verification against TikTok.
 
 GitHub native push/read works. The GitHub API is denied by this environment's
-network policy, preventing direct Actions-run inspection. Local Docker tests and
+network policy, preventing API-based Actions-run inspection. The Actions web page is accessible
+and is used to monitor runs. Local Docker tests and
 remote CI status are separate: remote CI must not be called green without a result.
 
 ## Required next action
